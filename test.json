@@ -1,0 +1,7 @@
+{
+  "name":  "item",
+  "cost": 10,
+  "dispatch_date": "01.02.2022",
+  "tags": ["tag1", "tag2"],
+  "description": "description"
+}
