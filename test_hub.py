@@ -1,3 +1,4 @@
+import json
 import unittest
 from hub import Hub
 from item import Item
@@ -124,6 +125,14 @@ class TestHub(unittest.TestCase):
         item3 = Item(cost=70.6)
         hub.add_items([item1, item2, item3])
         self.assertEqual(hub.find_most_valuable(5), [item3, item2, item1])
+
+    def test_save_as_json_hub_object(self):
+        'Проверка сохранения экземляра Hub в json файл'
+        hub = Hub('hub1')
+        hub.save_as_json()
+        with open(f'hub_{hub._hub}.json', 'r') as f:
+            data = json.load(f)
+            self.assertEqual(data, hub.__dict__)
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

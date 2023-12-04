@@ -1,3 +1,4 @@
+import json
 import unittest
 from item import Item
 from datetime import datetime
@@ -121,6 +122,47 @@ class TestItem(unittest.TestCase):
         self.assertEqual(json_item._dispatch_date, '01.02.2022')
         self.assertEqual(json_item._tags, ["tag1", "tag2"])
         self.assertEqual(json_item._cost, 10)
+
+
+    def test_hash(self):
+        'Проверка, что hash вычисляется по нужному полю'
+        item1 = Item()
+        self.assertEqual(hash(item1), hash(item1._id))
+
+    def test_eq(self):
+        'Проверка, что два разных объекта не равны'
+        item1 = Item()
+        item2 = Item()
+        self.assertNotEqual(item1, item2)
+
+    def test_eq_invalid_type(self):
+        'Проверка возникновения ошибки при попытке сравнения на равество объектов разных типов'
+        item1 = Item()
+        item2 = item1._id # int type
+        self.assertRaises(TypeError, item1 == item2)
+
+    def tests_get_item_by_id(self):
+        "Проверка получения объекта Item по его id в списке _items при использовании метода"
+        item1 = Item()
+        self.assertEqual(Item.get_item_by_id(item1._id), item1)
+
+    def tests_get_item_by_id_invalid_type(self):
+        'Проверка возникновения ошибки при попытке обратиться по неверному индексу'
+        item1 = Item()
+        self.assertRaises(TypeError, Item.get_item_by_id(item1._id + 1))
+
+    def tests_get_item_by_index_in_items(self):
+        "Проверка получения объекта Item в списке _items при обращении по индексу, равному id"
+        item1 = Item()
+        self.assertEqual(Item._items[item1._id], item1)
+
+    def test_save_as_json_item_object(self):
+        'Проверка сохранения экземляра Item в json файл'
+        item1 = Item()
+        item1.save_as_json()
+        with open(f'item_{item1._id}.json', 'r') as f:
+            data = json.load(f)
+            self.assertEqual(data, item1.__dict__)
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

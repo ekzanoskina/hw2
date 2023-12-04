@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from item import Item
+import json
 
 class Hub:
     __instance = None
@@ -118,4 +119,18 @@ class Hub:
         'Поиск самых дорогих предметов на складе в количестве amount'
         sorted_items = sorted(self._items, key=lambda item: item.cost, reverse=True)
         return sorted_items[:amount]
+
+    @classmethod
+    def read_from_json(cls, json_path):
+        'Читает из файла json'
+        with open(json_path, 'r') as file:
+            data = json.load(file)  # передаем файловый объект
+            return data
+
+    def save_as_json(self):
+        with open(f'hub_{self._hub}.json', 'w') as file:
+            json.dump(self.__dict__, file)
+
+
+
 

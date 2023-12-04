@@ -1,6 +1,7 @@
 import json
 class Item:
     count = 0
+    _items = []
     def __init__(self, name=None, description=None, dispatch_date='', tags=None, cost=None):
         self._id = Item.count
         Item.count += 1 # создание уникального id
@@ -9,6 +10,17 @@ class Item:
         self._dispatch_date = dispatch_date
         self._tags = tags or []
         self._cost = cost
+        # Добавить текущий инстанс item в список _items по индексу id
+        Item._items.append(self)
+
+
+    @staticmethod
+    def get_item_by_id(id):
+        # Вернуть инстанс item из списка _items по индексу id
+        if isinstance(id, int) and id < len(Item._items):
+            return Item._items[id]
+        else:
+            return TypeError('Неверный id')
 
     def __repr__(self):
         return f"{self._id} {self.name}: {', '.join(self._tags[:3])}"
@@ -108,7 +120,20 @@ class Item:
 
     @classmethod
     def create_from_json(cls, json_path):
-        with open(json_path) as file:
+        'Создает объект Item из файла json'
+        with open(json_path, 'r') as file:
             data = json.load(file)  # передаем файловый объект
             return Item(**data)
+    def save_as_json(self):
+        with open(f'item_{self._id}.json', 'w') as file:
+            json.dump(self.__dict__, file)
+
+# не понимаю, зачем нужно переопределять хэш, если можно сравнивать два объекта по id, который уникален из условия (id доступен только для чтения)
+    def __hash__(self):
+        return hash(self._id)
+
+    def __eq__(self, other):
+        if isinstance(other, Item):
+            return self._id == other._id
+        return NotImplemented
 
