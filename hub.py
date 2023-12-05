@@ -122,10 +122,10 @@ class Hub:
 
     @classmethod
     def read_from_json(cls, json_path):
-        'Читает из файла json'
+        'Читает из файла json и создает объект Hub'
         with open(json_path, 'r') as file:
             data = json.load(file)  # передаем файловый объект
-            return data
+            return Hub(**data)
 
     def save_as_json(self):
         with open(f'hub_{self._hub}.json', 'w') as file:
