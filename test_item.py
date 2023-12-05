@@ -116,13 +116,27 @@ class TestItem(unittest.TestCase):
         self.assertEqual(copy_item._tags, ["tag1", "tag2"])
 
     def test_create_from_json(self):
-        json_item = Item().create_from_json('test.json')
+        'Проверка создания одного экземпляра класса Item из json файла'
+        json_item = Item.create_from_json('test.json')
         self.assertEqual(json_item._name, "item")
         self.assertEqual(json_item._description, "description")
         self.assertEqual(json_item._dispatch_date, '01.02.2022')
         self.assertEqual(json_item._tags, ["tag1", "tag2"])
         self.assertEqual(json_item._cost, 10)
 
+    def test_create_several_obj_from_json(self):
+        'Проверка создания нескольких экземпляров класса Item из json файла'
+        json_item1, json_item2 = Item.create_several_obj_from_json('test_item.json')
+        self.assertEqual(json_item1._name, "item1")
+        self.assertEqual(json_item2._name, "item2")
+        self.assertEqual(json_item1._description, "description1")
+        self.assertEqual(json_item2._description, "description2")
+        self.assertEqual(json_item1._dispatch_date, '04.05.2022')
+        self.assertEqual(json_item2._dispatch_date, '05.05.2022')
+        self.assertEqual(json_item1._tags, ["tag1", "tag2"])
+        self.assertEqual(json_item2._tags, ["tag3", "tag4"])
+        self.assertEqual(json_item1._cost, 20)
+        self.assertEqual(json_item2._cost, 30)
 
     def test_hash(self):
         'Проверка, что hash вычисляется по нужному полю'

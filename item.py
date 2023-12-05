@@ -124,6 +124,14 @@ class Item:
         with open(json_path, 'r') as file:
             data = json.load(file)  # передаем файловый объект
             return Item(**data)
+    @classmethod
+    def create_several_obj_from_json(cls, json_path):
+        'Создает генератор объектов типа Item из файла json'
+        with open(json_path, 'r') as file:
+            data = json.load(file)  # передаем файловый объект
+            for item in data:
+                yield Item(**item)
+
     def save_as_json(self):
         with open(f'item_{self._id}.json', 'w') as file:
             json.dump(self.__dict__, file)

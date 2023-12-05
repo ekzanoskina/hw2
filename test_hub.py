@@ -134,5 +134,12 @@ class TestHub(unittest.TestCase):
             data = json.load(f)
             self.assertEqual(data, hub.__dict__)
 
+    def test_read_from_json(self):
+        json_item = Hub().read_from_json('test_hub.json')
+        self.assertEqual(json_item._hub, "hub1")
+        self.assertEqual(json_item._hdate, "01.02.2023")
+        self.assertEqual(json_item._items, [])
+
+
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
