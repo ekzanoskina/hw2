@@ -3,12 +3,12 @@ from item import Item
 import json
 
 class Hub:
-    __instance = None
+    _instance = None
+
     def __new__(cls, *args, **kwargs):
-        'Функционал Синглтона'
-        if cls.__instance is None:
-            cls.__instance = super().__new__(cls)
-        return cls.__instance
+        if cls._instance is None:
+            cls._instance = object.__new__(cls, *args, **kwargs)
+        return cls._instance
 
     def __init__(self, hub=None, hdate=date.today(), items=None):
         self._hub = hub
@@ -28,7 +28,7 @@ class Hub:
         'Обращение к отдельным item в _items объекта Hub по индексам'
         if len(self._items) < i:
            raise IndexError
-        return (self._items)[i]
+        return self._items[i]
 
     @property
     def items(self):
