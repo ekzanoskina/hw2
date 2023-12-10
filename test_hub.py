@@ -18,6 +18,7 @@ class TestHub(unittest.TestCase):
         'Проверка того что при добавлении предметов меняется значение len(item)'
         for i in range(5):
             self.hub.add_item(Item())
+
         self.assertEqual(len(self.hub), 5)
 
     def test_get_item_by_index(self):
@@ -80,7 +81,6 @@ class TestHub(unittest.TestCase):
 
     def tests_find_by_date_single_date(self):
         'Проверка возращения подходящих по дате items при передаче одной даты'
-
         item1 = Item()
         item2 = Item()
         item1.dispatch_date = '01.01.2000'
@@ -113,7 +113,6 @@ class TestHub(unittest.TestCase):
 
     def test_find_most_valuable_large_amount(self):
         'Проверка возвращения самых ценных items в кол-ве, превышающем длину списка _items'
-        hub = Hub()
         item1 = Item(cost=25)
         item2 = Item(cost=50)
         item3 = Item(cost=70.6)
